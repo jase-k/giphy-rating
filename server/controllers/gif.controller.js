@@ -14,8 +14,7 @@ module.exports.getTrendingGifs = (req, res) => {
             resolve({data: gifArray})
         })
         .catch(err => resolve({ message: "Something went wrong", error: err }));
-
-    })
+    }).then(data => res.json({data: data})).catch(err => res.status(400).json({error:err}))
 };
 
 

@@ -1,49 +1,62 @@
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt")
-
-const UserSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: [true, "name is required"],
-		minlength: [6, "First name must be at least 6 characters long"],
-	},
-	email: {
-		type: String, 
-		required: [true, "Email is required!"],
-		validate: {
-			validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
-			message: "Please enter a valid email"
+class User {
+	constructor(object){
+		this.giphy_id = object.giphy_id
+		this.username = object.username
+		this.email = object.email
+		this.password = object.password
+	}
+	validate(object){
+		if(object.password === object.confirmPassword){
+			return this(object)
 		}
-	},
-	password: {
-		type: String,
-		required: [true, "Password is required"],
-		minlength: [8, "Password must be 8 characters or longer"]
 	}
-}, {timestamps: true});
+}
+module.exports = User
 
-//PreHook creates a virtual attribute for model but will not save to the db
-UserSchema.virtual('confirmPassword') //name of virtual attribute
-	.get(() => this._confirmPassword)
-	.set(value => this._confirmPassword = value)
+// const UserSchema = new mongoose.Schema({
+// 	name: {
+// 		type: String,
+// 		required: [true, "name is required"],
+// 		minlength: [6, "First name must be at least 6 characters long"],
+// 	},
+// 	email: {
+// 		type: String, 
+// 		required: [true, "Email is required!"],
+// 		validate: {
+// 			validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
+// 			message: "Please enter a valid email"
+// 		}
+// 	},
+// 	password: {
+// 		type: String,
+// 		required: [true, "Password is required"],
+// 		minlength: [8, "Password must be 8 characters or longer"]
+// 	}
+// }, {timestamps: true});
 
-//PreHook checks for validations prior to all other validations defined in the model
-UserSchema.pre('validate', function(next){
-	if(this.password !== this.confirmPassword){
-		this.invalidate('confirmPassword', 'Password must match confirm password');
-	}
-	next()
-})
+// //PreHook creates a virtual attribute for model but will not save to the db
+// UserSchema.virtual('confirmPassword') //name of virtual attribute
+// 	.get(() => this._confirmPassword)
+// 	.set(value => this._confirmPassword = value)
 
-//PreHook prior to saving data to db. 
-UserSchema.pre('save', function(next){
-	bcrypt.hash(this.password, 14)
-	.then(hash => {
-		this.password = hash;
-		next();
-	});
-});
+// //PreHook checks for validations prior to all other validations defined in the model
+// UserSchema.pre('validate', function(next){
+// 	if(this.password !== this.confirmPassword){
+// 		this.invalidate('confirmPassword', 'Password must match confirm password');
+// 	}
+// 	next()
+// })
 
-const User = mongoose.model("User", UserSchema);
+// //PreHook prior to saving data to db. 
+// UserSchema.pre('save', function(next){
+// 	bcrypt.hash(this.password, 14)
+// 	.then(hash => {
+// 		this.password = hash;
+// 		next();
+// 	});
+// });
 
-module.exports = User;
+// const OldUser = mongoose.model("User", UserSchema);
+
+// module.exports = OldUser;

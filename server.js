@@ -16,10 +16,10 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'})) //Change to 
 app.use(express.json(), express.urlencoded({ extended: true }));
 
 // This is where we import the users routes function from our user.routes.js file
-// const AllMyUserRoutes = require("./server/routes/user.routes");
-// AllMyUserRoutes(app);
-// const HomeRoutes = require("./server/routes/home.routes")
-// HomeRoutes(app)
+const UserRoutes = require("./server/routes/user.routes");
+UserRoutes(app);
+const HomeRoutes = require("./server/routes/home.routes")
+HomeRoutes(app)
 const RatingRoutes = require("./server/routes/rating.routes")
 RatingRoutes(app)
 const CommentRoutes = require("./server/routes/comment.routes")
