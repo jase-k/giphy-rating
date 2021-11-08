@@ -1,13 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import Index from './Views/Index';
 import {
   BrowserRouter,
-  Switch, 
   Route, 
   Routes
 } from "react-router-dom"
-import OneGIf from './Views/OneGIf';
 import { useState } from 'react';
 import Home from './Views/home/Home';
 

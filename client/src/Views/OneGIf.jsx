@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Gif from '../components/Feed/Gif/Gif'
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import Rating from '../components/Interactions/Rating';
 import Comment from '../components/Interactions/Comment';
 import UserInput from '../components/Interactions/UserInput';
-import NavBar from '../components/navbar/NavBar';
-import { API_URL } from '..';
+
 
 
 const initialGifState = {
@@ -19,7 +17,6 @@ const OneGIf = (props) => {
     const {id} = useParams()
     const [gif, setGif] = useState(initialGifState);
     const [interactionCount, setInteractionCount] = useState(0)
-    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get("http://localhost:8000/api/gifs/"+id, {withCredentials:true})
@@ -63,6 +60,7 @@ const OneGIf = (props) => {
             setInteractionCount(interactionCount+1)
         })
     }
+    
     return (
         <div className="feed-wrapper home-wrapper">
             < Gif 
