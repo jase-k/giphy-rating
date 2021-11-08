@@ -1,4 +1,4 @@
-var mysql      = require('mysql');
+var mysql      = require("mysql");
 let db = 'giphy_schema'
 
 var connection = mysql.createConnection({
@@ -36,7 +36,7 @@ module.exports.db_query = async (params) => {
             let values = []
             for(const key in params.values){
                 columns.push(key)
-                values.push(`'${params.values[key]}'`)
+                values.push(`"${params.values[key]}"`)
             }
             let query = `INSERT INTO ${params.table} (${columns.join(', ')}, createdAt, updatedAt) VALUES (${values.join(', ')}, NOW(), NOW())`
             console.log("RUNNING SQL QUERY: ", query)
@@ -64,7 +64,7 @@ module.exports.db_query = async (params) => {
             for(let key in params.aliases){
                 aliases += `, ${key} AS ${params.aliases[key]}`
             }
-            let query = `SELECT *${aliases} from ${params.table} ${joinStatement} WHERE ${searchKey} = '${params.options[searchKey]}' ORDER BY ${params.table}.id desc`
+            let query = `SELECT *${aliases} from ${params.table} ${joinStatement} WHERE ${searchKey} = "${params.options[searchKey]}" ORDER BY ${params.table}.id desc`
             console.log("RUNNING SQL QUERY: ", query)
             connection.query(query, (error, results, fields) => {
                 if (error){
@@ -79,9 +79,9 @@ module.exports.db_query = async (params) => {
         if(params.type.toLowerCase() === "update"){
             let columns = []
             for(const key in params.values){
-                columns.push(`${key} = '${params.values[key]}'`)
+                columns.push(`${key} = "${params.values[key]}"`)
             }
-            let query = `UPDATE ${params.table} SET ${columns.join(', ')} WHERE id = ${params.options.id}`
+            let query = `UPDATE ${params.table} SET ${columns.join(", ")} WHERE id = ${params.options.id}`
             console.log("RUNNING SQL QUERY: ", query)
             connection.query(query, (error, results, fields) => {
                 if (error){
