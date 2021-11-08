@@ -22,7 +22,6 @@ module.exports.getTrendingGifs = (req, res) => {
 module.exports.getGif = (req, res) => {
     return new Promise((resolve, reject) => {
         let url = `https://api.giphy.com/v1/gifs/${req.params.id}?api_key=${process.env.GIPHY_API_KEY}`
-        // console.log(url)
         axios.get(url)
         .then(results => {
 
@@ -32,7 +31,6 @@ module.exports.getGif = (req, res) => {
             .catch(error => res.status(400).json({error:error}))
         })
         .catch(err => {
-            console.log("Error: ", err)
             resolve({ message: "Something went wrong", error: err })
         });
     }).then(data => res.json(data)).catch(err => res.status(400).json({error:err}))
@@ -54,9 +52,10 @@ module.exports.searchGifs = (req, res) => {
     }).then(data => res.json(data)).catch(err => res.status(400).json({error:"error"}))
 }
 
+//Adds comments and ratings to gif object
 async function addCommentsAndRatings(gif){
-    console.log("gif object from line 59 gif.controller: ", gif)
     return new Promise((resolve, reject) =>{
+        //sets parameters for sql query see ../config/mysql.confis.js
         let params = {
             type:"read", 
             table:"comments", 
@@ -72,13 +71,11 @@ async function addCommentsAndRatings(gif){
                 "comments.id": "comment_id"
             }
         }
-        console.log(params)
+
         MySQLConnection.db_query(params)
         .then((comments) =>{
-            console.log("COMMENTS FROM DB", comments)
             let commentsArray = []
             for(let i = 0; i < comments.length; i++){
-                console.log("COMMENT FROM DB", comments[i])
                 commentsArray.push(comments[i])
             }
             let params = {
@@ -98,7 +95,6 @@ async function addCommentsAndRatings(gif){
             }
             MySQLConnection.db_query(params)
             .then((ratings) =>{
-                console.log("ratings from db", ratings)
                 let ratingsArray = []
                 for(let i = 0; i < ratings.length; i++){
                     ratingsArray.push(ratings[i])

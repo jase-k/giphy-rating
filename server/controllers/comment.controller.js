@@ -4,7 +4,6 @@ const Comment = require("../models/comment.model");
 
 module.exports.createNewComment = (req, res) => {
         let comment = new Comment(req.body) 
-        console.log(comment)     
         let params = {
             table: "comments",
             type: "create",
@@ -24,7 +23,6 @@ module.exports.createNewComment = (req, res) => {
 
 module.exports.updateComment = (req, res) => {
     let comment = new Comment(req.body) 
-    console.log(comment)     
     let params = {
         table: "comments",
         type: "update",
@@ -33,19 +31,15 @@ module.exports.updateComment = (req, res) => {
             id: req.body.id
         }
     }
-    console.log(params)
     MySQLConnection.db_query(params)
     .then(results => {
-        console.log({id: results})
         res.json({id: results})
     })
     .catch(response => {
-        console.log(response)
         res.status(400).json({error: response})
     })
 };
 module.exports.deleteComment = (req, res) => {
-    // console.log(req)
         let params = {
             table: "comments",
             type: "delete",
@@ -53,14 +47,11 @@ module.exports.deleteComment = (req, res) => {
                 id: req.params.id
             }
         }
-        console.log(params)
         MySQLConnection.db_query(params)
         .then(results => {
-            console.log({message: results})
             res.json({message: results})
         })
         .catch(response => {
-            console.log(response)
             res.status(400).json({error: response})
         })
 };
@@ -78,7 +69,6 @@ module.exports.findOneComment = (req, res) =>{
         res.json({data: results})
     })
     .catch(response => {
-        console.log(response)
         res.status(400).json({error: response})
     })
 }

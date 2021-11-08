@@ -14,12 +14,10 @@ module.exports.login = async (req, res) => {
                 email : req.body.email
             }
         }
-        console.log(params)
+        //Find user by email.. else throw error -> email not found
         MySQLConnection.db_query(params)
         .then(results => {
-            console.log(results)
             let user = results[0]
-            console.log(user)
             if(user === undefined) {
                 // email not found in users collection
                 return res.status(400).json({message: "Couldn't find user email!"})
@@ -47,7 +45,6 @@ module.exports.login = async (req, res) => {
                     .json({ msg: "success!", user: user });
             })
             .catch(error => {
-                console.log(error)
                 res.status(400).json({message: "Login Failed", error: error})
             })
         })
@@ -58,6 +55,7 @@ module.exports.register = async (req, res) => {
     try {
         const user = await User.create(req.body)
     .then(user => {
+        //Creates cookie and assigns it to user for future validation
         const userToken = jwt.sign({
             id: user._id
         }, process.env.SECRET_KEY)
@@ -67,7 +65,6 @@ module.exports.register = async (req, res) => {
         .json({message: "success!", user: user})
     })
     } catch (err) {
-        console.log(err)
         res.status(400).json({message: "Registration Failed", error: err})
     }
 }

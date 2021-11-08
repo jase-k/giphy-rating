@@ -11,22 +11,23 @@ var connection = mysql.createConnection({
  
 connection.connect();
 
-
+//Should get messages in console if connected to db
 connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
     if (error) throw error;
     console.log('The solution is: ', results[0].solution);
     console.log('You Are Connected to the Database!')
 });
 
-const params = {
-    type: "create",
-    table: "ratings",
-    values: {
+const ExampleParams = {
+    type: "create", // CRUD TYPE: "create", "read", "update", "delete"
+    table: "ratings", //Table you want to query
+    values: { //Values for 'create' and 'update' key = column_name // value = row_value
         gif_id: "kl;j324kladf", 
         rating: "3", 
         user_id: 1
     },
-    options: ""
+    options: {}, //object of one key value pair for WHERE sql statement (e.g. options: {id: "3"} == WHERE id = "3")
+    join:{} //joins table {join: {table: "users", on: "users.id", from:"user_id"} == LEFT JOIN users ON user_id = users.id}
 }
 
 module.exports.db_query = async (params) => {
@@ -44,9 +45,7 @@ module.exports.db_query = async (params) => {
                 if (error){
                     console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
                     reject({message: `Something went wrong! error number: ${error.errno}`})
-                    // throw error;
                 }else{
-                    // console.log("FIELDS: ", fields)
                     resolve(results.insertId)
                 } 
             })
@@ -70,7 +69,6 @@ module.exports.db_query = async (params) => {
                 if (error){
                     console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
                     reject({message: `Something went wrong! error number: ${error.errno}`})
-                    // throw error;
                 }else{
                     resolve(results)
                 } 
@@ -87,7 +85,6 @@ module.exports.db_query = async (params) => {
                 if (error){
                     console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
                     reject({message: `Something went wrong! error number: ${error.errno}`})
-                    // throw error;
                 }else{
                     console.log("RESULTS: ", results.message)
                     if(results.affectedRows == 0 ){
@@ -104,10 +101,8 @@ module.exports.db_query = async (params) => {
                     if (error){
                         console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
                         reject({message: `Something went wrong! error number: ${error.errno}`})
-                        // throw error;
                     }else{
                         console.log("RESULTS: ", results)
-                        // console.log("FIELDS: ", fields)
                         if(results.affectedRows == 0 ){
                             reject({message: "Id Not Found"})
                         }
@@ -119,6 +114,5 @@ module.exports.db_query = async (params) => {
     })
 }
 
-// db_query(params)
 
-// connection.end();
+

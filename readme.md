@@ -22,11 +22,11 @@ nodemon ./server.js
 ``` 
 
 ```
+cd giphy-rating
 cd client
 npm install
 npm start
 ```
-
 
 
 ## Known Bugs: 

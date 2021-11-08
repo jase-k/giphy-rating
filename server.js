@@ -3,19 +3,14 @@ const app = express();
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 require('dotenv').config();
-const GifController = require("./server/controllers/gif.controller")
-const RatingController = require("./server/controllers/rating.controller")
-// GifController.getTrendingGifs().then(res => console.log(res));
-// RatingController.createNewRating({user_id: 001, gif_id: 001, rating: 4})
-// This will fire our mongoose.connect statement to initialize our database connection
-// require("./server/config/mongoose.config");
+
 require("./server/config/mysql.config")
 
 app.use(cookieParser())
 app.use(cors({credentials: true, origin: 'http://localhost:3000'})) //Change to client's http address
 app.use(express.json(), express.urlencoded({ extended: true }));
 
-// This is where we import the users routes function from our user.routes.js file
+// Importing routes to be used in app
 const UserRoutes = require("./server/routes/user.routes");
 UserRoutes(app);
 const RatingRoutes = require("./server/routes/rating.routes")
