@@ -1,40 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import Login from '../components/Login';
+import Login from '../components/login/Login';
 import { useNavigate } from 'react-router';
 import { API_URL } from '..';
+import Home from '../components/home/Home';
+import Register from '../components/login/Register';
 
 const Index = () => {
-    const [ message, setMessage ] = useState("Uh Oh! You Are Not Connected to DB")
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [isNewUser, setIsNewUser] = useState(true)
+    const [isNewUser, setIsNewUser] = useState(false)
     const navigate = useNavigate();
 
-    const [ color, setColor ] = useState("red")
 
-    useEffect(()=>{
-        axios.get(API_URL+"/api", {withCredentials:true})
-            .then(res=> {
-                console.log(res)
-                setMessage(res.data.message)
-                setColor("green")
-            })
-            .catch(err => {
-                console.log(err.response)
-                if(err.response && err.response.data.verified === false){
-                    setMessage("Shucks! You unAuthorized to the DB")
-                    setColor("orange")
-                }
-                else{
-                    setMessage("Uh Oh! You Are Not Connected to DB")
-                    setColor("red")
-                }
-            })
-    }, [isLoggedIn]);
+
     const handleSubmit = (e, user) =>{
         e.preventDefault()
         if(isNewUser){
-            axios.post(API_URL+"/register", {
+            axios.post(API_URL+"/api/users/new", {
                 ...user
             }, {withCredentials:true})
             .then(res => {
@@ -68,13 +50,20 @@ const Index = () => {
     }
     return (
         <div>
-            <h2>Message from the backend:<strong style={{color: color}}>{message}</strong></h2>
-            < Login  
-            handleSubmit= {(e, user) => handleSubmit(e, user)}
-            setIsNewUser= {setIsNewUser}
-            isNewUser = {isNewUser}
-            />
-            <button onClick={handleLogout}>Logout</button>
+            {
+                isLoggedIn ?
+                <Home handleLogout={handleLogout}/>
+                : isNewUser ?
+                    < Register 
+                    handleSubmit= {(e, user) => handleSubmit(e, user)}
+                    setIsNewUser= {setIsNewUser}
+                    />
+                    :< Login  
+                    handleSubmit= {(e, user) => handleSubmit(e, user)}
+                    setIsNewUser= {setIsNewUser}
+                    isNewUser = {isNewUser}
+                    />
+            }
         </div>
     )
 };

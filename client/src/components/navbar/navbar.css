@@ -1,0 +1,13 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.logout {
+    height: 2.5rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: whitesmoke;
+    border: none;
+    margin-left: 0.5rem;
+}

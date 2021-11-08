@@ -1,0 +1,132 @@
+
+.sign-in-wrapper {
+    background-color: lightpink;
+    max-width: 400px;
+    min-width: 280px;
+    position: relative;
+    margin: auto auto;
+}
+
+.sign-in-char {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    background-color: darkslategray;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0.25rem;
+    left: 2rem;
+    top: 2rem;
+}
+.sign-in-char p {
+    color: whitesmoke;
+    font-size: 1.5rem;
+    margin-top: -0.25rem;
+    margin-left: 0.15rem;
+}
+
+.purple-blob {
+    background-color: purple;
+    height: 6rem;
+    margin: 0rem 3rem;
+    position: relative;
+}
+
+.purple-blob .p2{
+    background-color: purple;
+    height: 6rem;
+    width: 6rem;
+    position: absolute;
+    right: -3rem;
+    top: 0rem;
+    border-radius: 50%;
+}
+.purple-blob .p1{
+    background-color: purple;
+    height: 6rem;
+    width: 6rem;
+    position: absolute;
+    left: -3rem;
+    top: 0rem;
+    border-radius: 50%;
+}
+.purple-blob .p3{
+    background-color: purple;
+    height: 3rem;
+    width: 3rem;
+    position: absolute;
+    left: -3rem;
+    top: 0rem;
+}
+
+.sign-in-form-wrapper {
+    background-color: salmon;
+    margin-top: 2rem;
+    border-radius: 0% 3rem 0% 0%;
+    padding:1rem 3rem 3rem 3rem;
+}
+
+.sign-in-form-wrapper h3{
+    text-align: center;
+    line-height: 1.25rem;
+    font-style: italic;
+    padding: 1.5rem;
+    letter-spacing: 0.5rem;
+}
+
+.sign-in-form-wrapper form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sign-in-form-wrapper form input{
+    background-color: transparent;
+    border-bottom: 1px solid black;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    /* margin: 1rem; */
+    padding: 1rem;
+    width: 100%;
+}
+.sign-in-form-wrapper form input::placeholder{
+    color: whitesmoke;
+    opacity: 50%;
+}
+
+.sign-in-form-wrapper .submit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.sign-in-form-wrapper .submit label{
+    margin-left: 2.5rem;
+}
+
+.sign-in-form-wrapper .submit button{
+    margin-right: 2.5rem;
+    padding: 1rem;
+    border-radius: 50%;
+    border: none;
+    color: whitesmoke;
+    background-color: purple;
+    cursor: pointer;
+}
+
+.sign-up-link {
+    font-size: 0.65rem;
+    margin: 0% 35%;
+    background-color: transparent;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+

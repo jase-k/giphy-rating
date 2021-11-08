@@ -6,10 +6,25 @@ class User {
 		this.email = object.email
 		this.password = object.password
 	}
-	validate(object){
-		if(object.password === object.confirmPassword){
-			return this(object)
+	static validate(object){ //returns object {status,  message}
+		let status = "success"
+		let message = ""
+		if(object.password !== object.confirmPassword){
+			status = "error"
+			message = "Passwords must match"
 		}
+		if(object.username.length < 4){
+			status = "error"
+			message = "username must be at least 4 characters"
+		}
+		return {status: status, message: message}
+	}
+	hashpw(){
+		bcrypt.hash(this.password, 14, (err, hash) =>{
+			this.password = hash
+			console.log(this.password)
+			return
+		})
 	}
 }
 module.exports = User

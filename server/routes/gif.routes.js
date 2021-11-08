@@ -4,7 +4,8 @@ const { authenticate } = require('../config/jwt.config');
 
 module.exports = app => {
   // app.get("/api", authenticate, GifController.index)
-  app.get("/api/gifs/trending", GifController.getTrendingGifs);
+  app.get("/api/gifs/trending", authenticate, GifController.getTrendingGifs);
+  app.get("/api/gifs/:id", authenticate, GifController.getGif);
   //Sample Crud Routes:
   // app.get("/api/gifs/:id", authenticate, GifController.findOneSingleGif);
   // app.put("/api/gifs/update/:id", authenticate, GifController.updateExistingGif);

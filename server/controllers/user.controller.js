@@ -1,6 +1,9 @@
 const MySQLConnection = require("../config/mysql.config")
 const { default: axios } = require("axios");
 const User = require("../models/user.model");
+const jwt = require("jsonwebtoken");
+
+const bcrypt = require("bcrypt")
 
 module.exports.index = (req, res) => {
   res.json({
@@ -16,29 +19,46 @@ module.exports.findAllUsers = (req, res) => {
 
 module.exports.createNewUser = (req, res) => {
   let userObject = req.body
+  console.log(userObject)
+  let validMessage = User.validate(userObject)
+  if(validMessage.status == "error"){
+    res.status(400).json({error: validMessage.message})
+  }
   axios.get("https://api.giphy.com/v1/randomid?api_key="+process.env.GIPHY_API_KEY)
   .then(results => {
     userObject.giphy_id = results.data.data.random_id
     console.log(results.data.data)
     let user = new User(userObject) 
-    console.log(user)     
-    let params = {
-        table: "users",
-        type: "create",
-        values: user
-    }
-    console.log(params)
-    MySQLConnection.db_query(params)
-    .then(results => {
+    bcrypt.hash(user.password, 12)
+    .then(hash => {
+      console.log(user)
+      user.password = hash     
+      let params = {
+          table: "users",
+          type: "create",
+          values: user
+      }
+      console.log(params)
+      MySQLConnection.db_query(params)
+      .then(results => {
+        const userToken = jwt.sign({
+          id: user._id
+          }, process.env.SECRET_KEY)
         console.log({id: results})
-        res.json({id: results})
+        
+        res
+        .cookie("usertoken", userToken, process.env.SECRET_KEY, { httpOnly: true})
+        .json({message: "success!", user: user})
+      })
+      .catch(response => {
+          console.log(response)
+          res.status(400).json({error: response})
+      })
     })
-    .catch(response => {
-        console.log(response)
-        res.status(400).json({error: response})
+    .catch(err => {
+      console.log(err)
     })
   })
-  .catch()
 };
 
 module.exports.updateUser = (req, res) => {
@@ -85,19 +105,37 @@ module.exports.deleteUser = (req, res) => {
 };
 
 module.exports.findOneUser = (req, res) =>{
-let params = {
-  table: "users",
-  type: "read", 
-  options: {
+  let params = {
+    table: "users",
+    type: "read", 
+    options: {
       id: req.params.id
+    }
   }
+  MySQLConnection.db_query(params)
+  .then(results => {
+    res.json({data: results})
+  })
+  .catch(response => {
+    console.log(response)
+    res.status(400).json({error: response})
+  })
 }
-MySQLConnection.db_query(params)
-.then(results => {
-  res.json({data: results})
-})
-.catch(response => {
-  console.log(response)
-  res.status(400).json({error: response})
-})
+module.exports.findOneUserByEmail = (req, res) => {
+  let params = {
+    table: "users",
+    type: "read", 
+    options: {
+        email: req.params.email
+    }
+  }
+  MySQLConnection.db_query(params)
+  .then(results => {
+    res.json({data: results})
+  })
+  .catch(response => {
+    console.log(response)
+    res.status(400).json({error: response})
+  })
+
 }

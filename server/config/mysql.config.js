@@ -27,7 +27,7 @@ const params = {
     options: ""
 }
 
-module.exports.db_query = (params) => {
+module.exports.db_query = async (params) => {
     return new Promise((resolve, reject) =>{
         if(params.type.toLowerCase() === "create"){
             let columns = []
@@ -37,6 +37,7 @@ module.exports.db_query = (params) => {
                 values.push(`'${params.values[key]}'`)
             }
             let query = `INSERT INTO ${params.table} (${columns.join(', ')}, createdAt, updatedAt) VALUES (${values.join(', ')}, NOW(), NOW())`
+            console.log("RUNNING SQL QUERY: ", query)
             connection.query(query, (error, results, fields) => {
                 if (error){
                     console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
@@ -50,7 +51,12 @@ module.exports.db_query = (params) => {
             })
         }
         if(params.type.toLowerCase() === "read"){
-            let query = `SELECT * from ${params.table} WHERE id = ${params.options.id}`
+            let searchKey = ""
+            for(let key in params.options){
+                searchKey += key
+            }
+            let query = `SELECT * from ${params.table} WHERE ${searchKey} = '${params.options[searchKey]}'`
+            console.log("RUNNING SQL QUERY: ", query)
             connection.query(query, (error, results, fields) => {
                 if (error){
                     console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
@@ -68,6 +74,7 @@ module.exports.db_query = (params) => {
                 columns.push(`${key} = '${params.values[key]}'`)
             }
             let query = `UPDATE ${params.table} SET ${columns.join(', ')} WHERE id = ${params.options.id}`
+            console.log("RUNNING SQL QUERY: ", query)
             connection.query(query, (error, results, fields) => {
                 if (error){
                     console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
@@ -83,7 +90,8 @@ module.exports.db_query = (params) => {
             })
         }
         if(params.type.toLowerCase() === "delete"){
-                let query = `DELETE FROM ${params.table} WHERE id = ${params.options.id}`
+            let query = `DELETE FROM ${params.table} WHERE id = ${params.options.id}`
+            console.log("RUNNING SQL QUERY: ", query)
                 connection.query(query, (error, results, fields) => {
                     if (error){
                         console.log("ERROR", `${error.sqlMessage} SQL RAN: ${error.sql} ErroNo: ${error.errno}`)
