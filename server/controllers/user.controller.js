@@ -42,10 +42,10 @@ module.exports.createNewUser = (req, res) => {
       MySQLConnection.db_query(params)
       .then(results => {
         const userToken = jwt.sign({
-          id: user._id
+          id: results
           }, process.env.SECRET_KEY)
         console.log({id: results})
-        
+        user.id = results
         res
         .cookie("usertoken", userToken, process.env.SECRET_KEY, { httpOnly: true})
         .json({message: "success!", user: user})
@@ -59,6 +59,7 @@ module.exports.createNewUser = (req, res) => {
       console.log(err)
     })
   })
+  .catch(err => res.status(400).json({error: err}))
 };
 
 module.exports.updateUser = (req, res) => {

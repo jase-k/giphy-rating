@@ -1,7 +1,7 @@
 const Rating = require('./rating.model')
 const Comment = require('./comment.model')
 class Gif {
-    constructor(object, commentsArray, ratingsArray){
+    constructor(object, commentsArray=[], ratingsArray=[]){
         this.id = object.id
         this.original_url = object.images.original.url
         this.downsized_url = object.images.downsized.url

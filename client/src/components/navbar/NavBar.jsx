@@ -8,7 +8,7 @@ const NavBar = (props) => {
     return (
         <div className="navbar">
             <button onClick={props.handleLogout} className = "logout">Logout</button>
-            < Search />
+            < Search setSearchTerm={props.setSearchTerm}/>
         </div>
     );
 };

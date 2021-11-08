@@ -50,7 +50,7 @@ module.exports.deleteComment = (req, res) => {
             table: "comments",
             type: "delete",
             options: {
-                id: req.body.id
+                id: req.params.id
             }
         }
         console.log(params)

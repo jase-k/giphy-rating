@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import "./search.css"
 
 const Search = (props) => {
-    const [active, setActive] = useState()
 
     return (
         <div class="search-container">
-            <input type="text" placeholder="Search..." />
+            <input type="text" placeholder="Search..." onChange={(e) => {props.setSearchTerm(e.target.value)}} />
             <div class="search"></div>
         </div>
     );

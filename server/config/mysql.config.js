@@ -1,14 +1,16 @@
 var mysql      = require('mysql');
 let db = 'giphy_schema'
+
 var connection = mysql.createConnection({
     host     : 'localhost',
-    user     : 'root',
+    user     : process.env.MySQL_USER,
     password : process.env.MySQL_PW,
     database : db
 });
 
  
 connection.connect();
+
 
 connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
     if (error) throw error;
@@ -44,7 +46,6 @@ module.exports.db_query = async (params) => {
                     reject({message: `Something went wrong! error number: ${error.errno}`})
                     // throw error;
                 }else{
-                    console.log("RESULTS: ", results.insertId)
                     // console.log("FIELDS: ", fields)
                     resolve(results.insertId)
                 } 
@@ -52,10 +53,18 @@ module.exports.db_query = async (params) => {
         }
         if(params.type.toLowerCase() === "read"){
             let searchKey = ""
+            let joinStatement = ""
+            let aliases = ""
             for(let key in params.options){
                 searchKey += key
             }
-            let query = `SELECT * from ${params.table} WHERE ${searchKey} = '${params.options[searchKey]}'`
+            if(params.join !== undefined){
+                joinStatement = `LEFT JOIN ${params.join.table} ON ${params.join.on} = ${params.join.from}`
+            }
+            for(let key in params.aliases){
+                aliases += `, ${key} AS ${params.aliases[key]}`
+            }
+            let query = `SELECT *${aliases} from ${params.table} ${joinStatement} WHERE ${searchKey} = '${params.options[searchKey]}' ORDER BY ${params.table}.id desc`
             console.log("RUNNING SQL QUERY: ", query)
             connection.query(query, (error, results, fields) => {
                 if (error){
@@ -63,7 +72,6 @@ module.exports.db_query = async (params) => {
                     reject({message: `Something went wrong! error number: ${error.errno}`})
                     // throw error;
                 }else{
-                    console.log("RESULTS: ", results)
                     resolve(results)
                 } 
             })

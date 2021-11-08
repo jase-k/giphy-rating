@@ -1,0 +1,32 @@
+.comment-wrapper {
+    background-color: rgb(100,100,100);
+    border-radius: 2rem;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.user-comment {
+    font-style: italic;
+    font-weight: lighter;
+}
+
+.edit {
+    background-color: rgba(100,100,100,0.5);
+    cursor: pointer;
+}
+.rating-input {
+    color: whitesmoke;
+    background-color: rgba(100,100,100,0.5);
+    border: none
+}
+.rating-input:read-only {
+    background-color: transparent;
+}
+.comment-input {
+    color: whitesmoke;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none
+}
+.comment-input:read-only {
+    background-color: transparent;
+}

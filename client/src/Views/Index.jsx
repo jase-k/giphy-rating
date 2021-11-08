@@ -3,17 +3,18 @@ import axios from 'axios';
 import Login from '../components/login/Login';
 import { useNavigate } from 'react-router';
 import { API_URL } from '..';
-import Home from '../components/home/Home';
 import Register from '../components/login/Register';
+import Home from './home/Home';
 
-const Index = () => {
+const Index = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isNewUser, setIsNewUser] = useState(false)
     const navigate = useNavigate();
-
-
-
+    
+    
+    
     const handleSubmit = (e, user) =>{
+
         e.preventDefault()
         if(isNewUser){
             axios.post(API_URL+"/api/users/new", {
@@ -22,6 +23,8 @@ const Index = () => {
             .then(res => {
                 console.log(res)
                 setIsLoggedIn(true)
+                props.setUserId(res.data.user.id)
+                navigate("/home")
             })
             .catch(err => {
                 console.log(err.response)
@@ -34,6 +37,8 @@ const Index = () => {
             .then(res => {
                 console.log(res)
                 setIsLoggedIn(true)
+                props.setUserId(res.data.user.id)
+                navigate("/home")
             })
             .catch(err => {
                 console.log(err.response)

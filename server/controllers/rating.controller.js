@@ -50,7 +50,7 @@ module.exports.deleteRating = (req, res) => {
             table: "ratings",
             type: "delete",
             options: {
-                id: req.body.id
+                id: req.params.id
             }
         }
         console.log(params)

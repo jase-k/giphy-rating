@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useNavigate, useParams } from 'react-router';
 
 const Gif = (props) => {
+    console.log(props)
     const nav = useNavigate();
     const {id} = useParams()
-
     return (
         <div className="gif-container">
             <p className="gif-header">Gif by: {props.gif.display_name}</p>
@@ -24,7 +24,7 @@ const Gif = (props) => {
             </div>
         </div>
     );
-}
+};
 
 Gif.propTypes = {};
 

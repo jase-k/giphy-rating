@@ -1,11 +1,22 @@
 # Getting Started: 
 
-Navigate to server/config/mongoose.config.js <br>
-Insert your database name in the ```dbNAME``` variable on line 2 <br><br>
+## Starting: 
+clone repository: 
+```git clone ```
+
+Run the ```db_setup.sql``` file to set up your mysql db (use either the MySQL CLI or copy it into Workbench)
+
+Create .env file with the following properties: 
+```
+SECRET_KEY = 
+MySQL_PW = //Set to your mysql user
+MySQL_USER = //Set to your mysql pw
+GIPHY_API_KEY = //get from https://developers.giphy.com/
+```
 
 In seperate terminals run: <br> 
 ```
-cd boilerplate-express-mongoose
+cd giphy-rating
 npm install
 nodemon ./server.js
 ``` 
@@ -15,13 +26,14 @@ cd client
 npm install
 npm start
 ```
-### Store API KEYS IN .env file: 
-```
-FIRST_SECRET_KEY="first key value"
-SECOND_SECRET_KEY="second key value"
-```
 
-Invoke Keys with:
-```
-const myFirstSecret = process.env.FIRST_SECRET_KEY;
-```
+
+
+## Known Bugs: 
+-> If users manually refresh page, authentication will fail -> their id doesn't save in the state so it messes up sql statments. 
+-> apostrophes mess up SQL statements
+-> sometimes the comment button doesn't work when searching after viewing one gif. Get this warning: "react_devtools_backend.js:2540 No routes matched location "/gifs/BrNiAk3eXfD4Q/comment" " *However if you click the rate (star) button, then the comment button it always works. -Inconsistent problem.
+
+
+
+
