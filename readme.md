@@ -2,7 +2,7 @@
 
 ## Starting: 
 clone repository: 
-```git clone ```
+```git clone https://github.com/jase-k/giphy-rating.git```
 
 Run the ```db_setup.sql``` file to set up your mysql db (use either the MySQL CLI or copy it into Workbench)
 
