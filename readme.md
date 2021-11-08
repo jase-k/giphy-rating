@@ -28,6 +28,17 @@ npm install
 npm start
 ```
 
+## Common Error: 
+If you run into the error below you can run the sql scripts in MySQL shell or MySQL Workbench
+```
+Error: 
+Client does not support authentication protocol requested by server; consider upgrading MySQL client
+
+SQL Scripts Solution: 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'
+flush privileges;
+```
+Once you run the sql script. Run ```nodemon ./server.js``` again
 
 ## Known Bugs: 
 - If users manually refresh page, authentication will fail -> their id doesn't save in the state so it messes up sql statments. 
