@@ -30,9 +30,9 @@ npm start
 
 
 ## Known Bugs: 
--> If users manually refresh page, authentication will fail -> their id doesn't save in the state so it messes up sql statments. 
--> apostrophes mess up SQL statements
--> sometimes the comment button doesn't work when searching after viewing one gif. Get this warning: "react_devtools_backend.js:2540 No routes matched location "/gifs/BrNiAk3eXfD4Q/comment" " *However if you click the rate (star) button, then the comment button it always works. -Inconsistent problem.
+- If users manually refresh page, authentication will fail -> their id doesn't save in the state so it messes up sql statments. 
+- apostrophes mess up SQL statements
+- sometimes the comment button doesn't work when searching after viewing one gif. Get this warning: "react_devtools_backend.js:2540 No routes matched location "/gifs/BrNiAk3eXfD4Q/comment" " *However if you click the rate (star) button, then the comment button it always works. -Inconsistent problem.
 
 
 
